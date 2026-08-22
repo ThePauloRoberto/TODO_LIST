@@ -1,10 +1,12 @@
-package APP;
+package services;
+
+import domain.Tarefa;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.lang.Thread;
 
-public abstract class alarmTarefa implements Runnable {
+public abstract class AlarmTarefa implements Runnable {
 
     public  static  void AcionadorDeTarefas(List<Tarefa> listaTarefa ){
         new Thread(){

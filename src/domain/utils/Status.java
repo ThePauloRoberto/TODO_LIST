@@ -1,4 +1,4 @@
-package APP;
+package domain.utils;
 
 public enum Status {
 
@@ -7,7 +7,7 @@ public enum Status {
     DONE("Done");
 
 
-    public final String status ;
+    public final String status;
      Status(String Status){
         this.status = Status;
      }

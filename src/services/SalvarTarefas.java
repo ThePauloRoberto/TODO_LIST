@@ -1,6 +1,6 @@
-package saveRead;
+package services;
 
-import APP.Tarefa;
+import domain.Tarefa;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.*;
@@ -13,7 +13,7 @@ public class SalvarTarefas {
         public static void salvar(List<Tarefa> tarefas) {
 
 
-            try (Writer writer = new FileWriter("/home/paulo/IdeaProjects/TODO_LIST/TarefasSalvas/TarefasSalvas.json")) {
+            try (Writer writer = new FileWriter("Saves/TarefasSalvas.json")) {
                 Gson gson = new GsonBuilder().create();
                 gson.toJson(tarefas, writer);
 

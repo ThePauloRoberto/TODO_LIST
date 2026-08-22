@@ -1,58 +1,67 @@
-import APP.Status;
-import APP.Tarefa;
-import APP.alarmTarefa;
+package app;
+
 import com.google.gson.Gson;
-import saveRead.SalvarTarefas;
+import domain.Tarefa;
+import domain.utils.Status;
+import services.AlarmTarefa;
+import services.SalvarTarefas;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.*;
-import java.util.function.Function;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Scanner;
+import java.util.function.Function;
 
-public class Main {
-
-    public static void main(String[] args) {
-        Gson gson = new Gson();
-        Scanner sc = new Scanner(System.in);
+public class Menu {
+    final Scanner sc;
+    Gson gson; // Lib de GSON para serializar e deserializar objetos java para json
 
 
+    public Menu() {
+         sc = new Scanner(System.in);
+         gson = new Gson();
+    }
 
-        List<Tarefa> tarefas = new ArrayList<>();
-        Tarefa tarefa1 = new Tarefa(1,"Fazer CRD", "Fazer o back-end do to-do list e adicionar as funcionalidades CRD","12-02-2023", "Back-end", Status.DOING, 1);
-        Tarefa tarefa2 = new Tarefa(2, "Clase da Tarefa", "Criar uma classe com os atributos da tarefa","12-12-2023", "Back-end", Status.DONE, 1);
-        Tarefa tarefa3 = new Tarefa(3, "Fazer tela dos cards das tarefas", "Usar pre modelos prontos de cards e customizar","12-03-2023", "Front-end", Status.TO_DO, 3);
-        Tarefa tarefa4 = new Tarefa(4, "Banco de dados", "Criar o banco de dados da terefa e seus relacionamentos","12-02-2023", "BD", Status.TO_DO, 5);
-        Tarefa tarefa5 = new Tarefa(5, "Fazer menu crud", "Criar uma aba para o CRUD ","08-09-2023", "Front-end", Status.TO_DO, 3);
+    public void Start(){
+
+        List<Tarefa> tarefas = new ArrayList<>(); // Criação de uma lista de tarefas (tasks)
+        //////////// CRIAÇÃO MOCK DO OBJETOS PARA POPÚLAR O SISTEMA /////////////////////////////////
+        Tarefa tarefa1 = new Tarefa(1, "Fazer CRD", "Fazer o back-end do to-do list e adicionar as funcionalidades CRD", "12-12-2026", "Back-end", Status.DOING, 1);
+        Tarefa tarefa2 = new Tarefa(2, "Clase da Tarefa", "Criar uma classe com os atributos da tarefa", "22-08-2026", "Back-end", Status.DONE, 2);
+        Tarefa tarefa3 = new Tarefa(3, "Fazer tela dos cards das tarefas", "Usar pre modelos prontos de cards e customizar", "12-12-2026", "Front-end", Status.TO_DO, 3);
+        Tarefa tarefa4 = new Tarefa(4, "Banco de dados", "Criar o banco de dados da terefa e seus relacionamentos", "12-12-2026", "BD", Status.TO_DO, 4);
+        Tarefa tarefa5 = new Tarefa(5, "Fazer menu crud", "Criar uma aba para o CRUD ", "08-09-2026", "Front-end", Status.TO_DO, 5);
+
+        /////////////// ADICIONADO OS MOCKS /////////////////////////////
         tarefas.add(tarefa1);
         tarefas.add(tarefa2);
         tarefas.add(tarefa3);
         tarefas.add(tarefa4);
         tarefas.add(tarefa5);
 
+        //////////////// lISTA DE TAREFAS COM ALARME (?) kkkkk
         List<Tarefa> tarefasComAlarmes = new ArrayList<>();
         tarefasComAlarmes.add(tarefa3);
         tarefasComAlarmes.add(tarefa5);
 
-        alarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
+        Function<Tarefa, Integer> extraiPrioridade = Tarefa::getPrioridade; // pega a prioridade por tarefa -> Pode virar um função da classe tarefa
+        Comparator<Tarefa> comparePrioridade = Comparator.comparing(extraiPrioridade); // Compara as prioridades para ordenação -> Outra função da classe tarefa
 
-
-
-        Function<Tarefa, Integer> extraiPrioridade = Tarefa::getPrioridade;
-        Comparator<Tarefa> comparePrioridade = Comparator.comparing(extraiPrioridade);
-
-        int op = 1;
+        int op ;
 
         System.out.println("----------- SEJA BEM-VINDO AO TO-DO LIST COROTINHO -------------");
         do {
 
-            tarefas.sort(comparePrioridade);
+            tarefas.sort(comparePrioridade); // usa a função de comparação
             System.out.println("Escolha uma das opções \n 1- Criar tarefa \n 2- Ver lista de tarefa \n 3- Apagar tarefa \n 4- Sair");
             System.out.println("Digite a opção: ");
+
             op = sc.nextInt();
 
-            if (op == 1)
+            if (op == 1) // criar tarefa
             {
 
                 Tarefa tarefa = new Tarefa();
@@ -111,7 +120,7 @@ public class Main {
                     if (tarefa.getAlarmeAtivo()){
                         tarefasComAlarmes.add(tarefa);
                     }
-                     tarefas.add(tarefa);
+                    tarefas.add(tarefa);
 
 
 
@@ -120,14 +129,11 @@ public class Main {
                     System.out.println("Erro ao criar tarefa");
                 }
 
-                alarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
+                AlarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
             }
-
-
 
             else if (op == 2)
             {
-
                 System.out.println(" 1- Todas as tarefas \n 2- listar por categoria \n 3- listar por status");
                 int opcao = sc.nextInt();
 
@@ -138,12 +144,12 @@ public class Main {
                         }
                         try {
 
-                            BufferedReader br = new BufferedReader(new FileReader("/home/paulo/IdeaProjects/TODO_LIST/TarefasSalvas/TarefasSalvas.json"));
+                            BufferedReader br = new BufferedReader(new FileReader("Saves/TarefasSalvas.json"));
 
                             //Converte String JSON para objeto Java
                             List lista = gson.fromJson(br, List.class);
 
-                            for (Object tarefa : lista){
+                            for (Object tarefa : lista){ // E SE NÃO TIVER NADA NA LISTA? VAI GERAR UM ERRO
                                 System.out.println(tarefa);
                             }
 
@@ -179,8 +185,8 @@ public class Main {
                 }
             }
 
-           else if (op == 3)
-           {
+            else if (op == 3)
+            {
                 System.out.println("Todas as Tarefas: ");
                 for (Tarefa tarefa : tarefas){tarefa.read();}
                 System.out.println("Digite o id da tarefa que deseja excluir: ");
@@ -191,24 +197,10 @@ public class Main {
             else{
                 System.out.println("Até mais");
             }
-
-
         }
         while ((op > 0 && op < 4));
         SalvarTarefas.salvar(tarefas);
-        alarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
-
-
-
-
-
-
-
-
-
-
-
+        AlarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
 
     }
-
 }

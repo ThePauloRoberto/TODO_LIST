@@ -1,7 +1,10 @@
-package APP;
+package domain;
+
+import domain.utils.Status;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class Tarefa implements Serializable{
@@ -10,13 +13,11 @@ public class Tarefa implements Serializable{
     private String nome;
     private String descricao;
     private LocalDate data_de_prioridade;
-    private String categoria;
-
-
+    private String categoria; // Verificar um método que verifica categorias existente ou senão adiciona a nova.
 
     private Boolean alarmeAtivo;
-    private int prioridade ;
-    private Status status;
+    private int prioridade ; // Pode ser um Enum.
+    private Status status; // Enum
 
 
     //CREATE TAREFA
@@ -42,7 +43,7 @@ public class Tarefa implements Serializable{
     //READ TAREFA
     public void read(){
 
-        System.out.println( this);
+        System.out.println(this);
     }
 
 
