@@ -5,6 +5,7 @@ import domain.Tarefa;
 import domain.utils.Status;
 import services.AlarmTarefa;
 import services.SalvarTarefas;
+import services.utils.MockGenerator;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,25 +32,7 @@ public class Menu {
 
     public void Start(){
 
-       // Criação de uma lista de tarefas (tasks)
-        //////////// CRIAÇÃO MOCK DO OBJETOS PARA POPÚLAR O SISTEMA /////////////////////////////////
-        Tarefa tarefa1 = new Tarefa(1, "Fazer CRD", "Fazer o back-end do to-do list e adicionar as funcionalidades CRD", "12-12-2026", "Back-end", Status.DOING, 1);
-        Tarefa tarefa2 = new Tarefa(2, "Clase da Tarefa", "Criar uma classe com os atributos da tarefa", "22-08-2026", "Back-end", Status.DONE, 2);
-        Tarefa tarefa3 = new Tarefa(3, "Fazer tela dos cards das tarefas", "Usar pre modelos prontos de cards e customizar", "12-12-2026", "Front-end", Status.TO_DO, 3);
-        Tarefa tarefa4 = new Tarefa(4, "Banco de dados", "Criar o banco de dados da terefa e seus relacionamentos", "12-12-2026", "BD", Status.TO_DO, 4);
-        Tarefa tarefa5 = new Tarefa(5, "Fazer menu crud", "Criar uma aba para o CRUD ", "08-09-2026", "Front-end", Status.TO_DO, 5);
-
-        /////////////// ADICIONADO OS MOCKS /////////////////////////////
-        tarefas.add(tarefa1);
-        tarefas.add(tarefa2);
-        tarefas.add(tarefa3);
-        tarefas.add(tarefa4);
-        tarefas.add(tarefa5);
-
-        //////////////// lISTA DE TAREFAS COM ALARME (?) kkkkk
-
-        tarefasComAlarmes.add(tarefa3);
-        tarefasComAlarmes.add(tarefa5);
+        tarefas = MockGenerator.Start();
 
         Function<Tarefa, Integer> extraiPrioridade = Tarefa::getPrioridade; // pega a prioridade por tarefa -> Pode virar um função da classe tarefa
         Comparator<Tarefa> comparePrioridade = Comparator.comparing(extraiPrioridade); // Compara as prioridades para ordenação -> Outra função da classe tarefa
@@ -167,21 +150,21 @@ public class Menu {
                 for (Tarefa tarefa : tarefas) {
                     tarefa.read();
                 }
-                try {
-
-                    BufferedReader br = new BufferedReader(new FileReader("Saves/TarefasSalvas.json"));
-                    //Converte String JSON para objeto Java
-                    List<Tarefa> list = gson.fromJson(br, List.class);
-
-                   if(list != null){ // Tratamento para lista nulo
-                       for (Tarefa tarefa : list){
-                           System.out.println(tarefa);
-                       }
-                   }
-
-                } catch (IOException e) {
-                    e.getMessage();
-                }
+//                try {
+//
+//                    BufferedReader br = new BufferedReader(new FileReader("Saves/TarefasSalvas.json"));
+//                    //Converte String JSON para objeto Java
+//                    List<Tarefa> list = gson.fromJson(br, List.class);
+//
+//                   if(list != null){ // Tratamento para lista nulo
+//                       for (Tarefa tarefa : list){
+//                           System.out.println(tarefa);
+//                       }
+//                   }
+//
+//                } catch (IOException e) {
+//                    e.getMessage();
+//                }
 
 
             }
