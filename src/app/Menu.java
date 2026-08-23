@@ -1,15 +1,12 @@
 package app;
 
-import com.google.gson.Gson;
 import domain.Tarefa;
 import domain.utils.Status;
 import services.AlarmTarefa;
+import services.GsonService;
 import services.SalvarTarefas;
 import services.utils.MockGenerator;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -19,13 +16,11 @@ import java.util.stream.Collectors;
 
 public class Menu {
     final Scanner sc;
-    Gson gson; // Lib de GSON para serializar e deserializar objetos java para json
     List<Tarefa> tarefasComAlarmes;
     List<Tarefa> tarefas;
 
     public Menu() {
          sc = new Scanner(System.in);
-         gson = new Gson();
          tarefasComAlarmes = new ArrayList<>();
          tarefas =  new ArrayList<>();
     }
@@ -138,6 +133,7 @@ public class Menu {
 
         AlarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
 
+
         return tarefa;
     }
 
@@ -150,29 +146,13 @@ public class Menu {
                 for (Tarefa tarefa : tarefas) {
                     tarefa.read();
                 }
-//                try {
-//
-//                    BufferedReader br = new BufferedReader(new FileReader("Saves/TarefasSalvas.json"));
-//                    //Converte String JSON para objeto Java
-//                    List<Tarefa> list = gson.fromJson(br, List.class);
-//
-//                   if(list != null){ // Tratamento para lista nulo
-//                       for (Tarefa tarefa : list){
-//                           System.out.println(tarefa);
-//                       }
-//                   }
-//
-//                } catch (IOException e) {
-//                    e.getMessage();
-//                }
-
-
+                GsonService.ReadSaves();
             }
             case 2 -> {
                 System.out.println("Todas as categorias:");
 
                List<String> categorias =  tarefas.stream().map(Tarefa::getCategoria).distinct().collect(Collectors.toList());
-               categorias.stream().forEach(System.out::println);
+               categorias.forEach(System.out::println);
 
                 System.out.println("Digite qual cateogria deseja filtar:");
                 String opCategoria = sc.next();
