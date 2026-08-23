@@ -1,5 +1,6 @@
 package domain;
 
+import com.google.gson.annotations.SerializedName;
 import domain.utils.Status;
 
 import java.io.Serializable;
@@ -12,6 +13,7 @@ public class Tarefa implements Serializable{
     private int id ;
     private String nome;
     private String descricao;
+    @SerializedName("data")
     private LocalDate data_de_prioridade;
     private String categoria; // Verificar um método que verifica categorias existente ou senão adiciona a nova.
 
