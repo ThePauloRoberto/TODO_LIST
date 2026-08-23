@@ -4,7 +4,6 @@ import domain.Tarefa;
 import domain.utils.Status;
 import services.AlarmTarefa;
 import services.GsonService;
-import services.SalvarTarefas;
 import services.utils.MockGenerator;
 
 import java.util.ArrayList;
@@ -28,6 +27,7 @@ public class Menu {
     public void Start(){
 
         tarefas = MockGenerator.Start();
+        GsonService.CreateSaves(tarefas);
 
         Function<Tarefa, Integer> extraiPrioridade = Tarefa::getPrioridade; // pega a prioridade por tarefa -> Pode virar um função da classe tarefa
         Comparator<Tarefa> comparePrioridade = Comparator.comparing(extraiPrioridade); // Compara as prioridades para ordenação -> Outra função da classe tarefa
@@ -62,7 +62,6 @@ public class Menu {
             }
         }
         while ((op > 0 && op < 4));
-        SalvarTarefas.salvar(tarefas);
         AlarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
 
     }
@@ -143,9 +142,6 @@ public class Menu {
 
         switch (opcao) {
             case 1 -> {
-                for (Tarefa tarefa : tarefas) {
-                    tarefa.read();
-                }
                 GsonService.ReadSaves();
             }
             case 2 -> {

@@ -50,9 +50,15 @@ public class GsonService {
         }
     }
 
-    public static void CreateSaves(Tarefa tarefa){
+    public static void CreateSaves(List<Tarefa> tarefas){
 
+        try (Writer writer = new FileWriter("C:\\Users\\paulo\\OneDrive\\Documentos\\projetos\\TODO_LIST\\Saves\\TarefasSalvas.json")) {
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
+            gson.toJson(tarefas, writer);
 
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
