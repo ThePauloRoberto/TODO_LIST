@@ -30,8 +30,6 @@ public class TestSalvarTarefa {
             gson.toJson(testTarefas, writer);
         }
 
-
-
         try {
 
             BufferedReader br = new BufferedReader(new FileReader(""));

@@ -36,9 +36,10 @@ public class Menu {
         int op ;
 
         System.out.println("----------- SEJA BEM-VINDO AO TO-DO LIST COROTINHO -------------");
+        GsonService.ReadSaves();
+
         do {
 
-            tarefas.sort(comparePrioridade); // usa a função de comparação
             System.out.println("Escolha uma das opções \n 1- Criar tarefa \n 2- Ver lista de tarefa \n 3- Apagar tarefa \n 4- Sair");
             System.out.println("Digite a opção: ");
 
@@ -56,7 +57,7 @@ public class Menu {
 
             else if (op == 3) // Todas as tarefas listadas
             {
-                ListAllTarefas();
+                DeleteTarefa();
             }
             else{
                 System.out.println("Até mais");
@@ -174,12 +175,15 @@ public class Menu {
         }
     }
 
-    public void ListAllTarefas(){
+    public void DeleteTarefa(){
         System.out.println("Todas as Tarefas: ");
-        for (Tarefa tarefa : tarefas){tarefa.read();}
+        GsonService.ReadSaves();
+
         System.out.println("Digite o id da tarefa que deseja excluir: ");
         int opDelete = sc.nextInt();
 
-        tarefas.removeIf( tarefa -> tarefa.getId() == opDelete );
+        GsonService.DeleteSave(opDelete);
     }
+
+
 }

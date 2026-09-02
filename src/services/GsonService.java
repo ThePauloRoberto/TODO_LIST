@@ -8,6 +8,7 @@ import domain.Tarefa;
 import java.io.*;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GsonService {
     public static Gson gson = new GsonBuilder().
@@ -66,7 +67,7 @@ public class GsonService {
             throw new RuntimeException(e);
         }
 
-    }
+    } // no futuro
     public static void CreateSaves(Tarefa tarefa) {
         List<Tarefa> list = ReadSaves();
 
@@ -83,5 +84,20 @@ public class GsonService {
         }
     }
 
+    public static void DeleteSave(int id){
+        List<Tarefa> list = ReadSaves();
 
+        try (Writer writer = new FileWriter("C:\\Users\\paulo\\OneDrive\\Documentos\\projetos\\TODO_LIST\\Saves\\TarefasSalvas.json")) {
+
+            list.removeIf(tarefa -> tarefa.getId() == id);
+
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
+            gson.toJson(list, writer);
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
+
+
+    }
 }
