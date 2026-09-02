@@ -1,5 +1,6 @@
 package app;
 
+import com.google.gson.Gson;
 import domain.Tarefa;
 import domain.utils.Status;
 import services.AlarmTarefa;
@@ -130,8 +131,9 @@ public class Menu {
             System.out.println("Erro ao criar tarefa");
         }
 
-        AlarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
 
+        AlarmTarefa.AcionadorDeTarefas(tarefasComAlarmes);
+        GsonService.CreateSaves(tarefa);
 
         return tarefa;
     }

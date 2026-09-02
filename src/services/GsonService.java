@@ -12,13 +12,13 @@ import java.util.List;
 public class GsonService {
     public static Gson gson = new GsonBuilder().
             registerTypeAdapter(LocalDate.class, new LocalDateAdapter())
-            .create(); // Lib de GSON para serializar e deserializar objetos java para json com tipo novo de leitura para localDate
+            .create();
 
     public GsonService(){
 
     }
 
-    public static void ReadSaves(){
+    public static List<Tarefa> ReadSaves(){
         FileReader file = null;
         BufferedReader br = null;
         try {
@@ -31,7 +31,10 @@ public class GsonService {
                 for (Tarefa tarefa : list) {
                     System.out.println(tarefa);
                 }
+
+                return list;
             }
+
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }
@@ -48,18 +51,36 @@ public class GsonService {
             }
 
         }
+        return List.of();
     }
 
     public static void CreateSaves(List<Tarefa> tarefas){
-
         try (Writer writer = new FileWriter("C:\\Users\\paulo\\OneDrive\\Documentos\\projetos\\TODO_LIST\\Saves\\TarefasSalvas.json")) {
+
+
             Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
             gson.toJson(tarefas, writer);
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
+    }
+    public static void CreateSaves(Tarefa tarefa) {
+        List<Tarefa> list = ReadSaves();
+
+        try (Writer writer = new FileWriter("C:\\Users\\paulo\\OneDrive\\Documentos\\projetos\\TODO_LIST\\Saves\\TarefasSalvas.json")) {
+
+            list.add(tarefa);
+
+            Gson gson = new GsonBuilder().registerTypeAdapter(LocalDate.class, new LocalDateAdapter()).create();
+            gson.toJson(list, writer);
+
+
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
 
