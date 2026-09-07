@@ -1,0 +1,29 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    display: flex;
+    
+}
+
+.side_menu{
+    display: flex;
+    flex-direction: column;
+   width: 360px;
+   height: 1024px;
+   border: 2px red solid;
+}
+
+.header_search{
+    border: 2px blue solid;
+    width: 1081px;
+    height: 106px;
+
+    display: flex;
+}
+
+.cards{
+    border: 2px purple solid;
+    
+}
