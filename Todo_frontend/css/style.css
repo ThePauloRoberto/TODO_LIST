@@ -187,3 +187,13 @@ body{
     color: #9C9C9C;
     font-family: sans-serif;
 }
+
+
+/*Dialog*/
+
+.dialog{
+    justify-self: center;
+    align-self: center;
+    width: 35%;
+    height: 90%;
+}

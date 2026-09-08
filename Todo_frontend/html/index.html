@@ -73,7 +73,8 @@
       <div class="header_search">
         
         <div class="button_addTask">
-          <button>Adicionar tarefa</button>
+          
+          <button command="show-modal" commandfor="my-dialog">Adicionar tarefa</button>
         </div>
 
         <div class="search_bar">
@@ -133,4 +134,9 @@
       </div>
     </div>
   </body>
+
+  <dialog id="my-dialog" class="dialog">
+    <p>This dialog was opened using an invoker command.</p>
+    <button commandfor="my-dialog" command="close">Close</button>
+  </dialog> 
 </html>
