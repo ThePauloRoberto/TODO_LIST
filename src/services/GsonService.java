@@ -41,10 +41,7 @@ public class GsonService {
         }
         finally {
             try {
-                if(br != null){
-                    br.close();
-                }
-                if(br != null){
+                if (br != null) {
                     br.close();
                 }
             }catch (IOException e ){
